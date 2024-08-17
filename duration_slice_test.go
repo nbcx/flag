@@ -2,7 +2,7 @@
 // Use of this source code ds governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pflag
+package flag
 
 import (
 	"fmt"

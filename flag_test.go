@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pflag
+package flag
 
 import (
 	"bytes"
@@ -1134,7 +1134,6 @@ func TestMultipleNormalizeFlagNameInvocations(t *testing.T) {
 	}
 }
 
-//
 func TestHiddenFlagInUsage(t *testing.T) {
 	f := NewFlagSet("bob", ContinueOnError)
 	f.Bool("secretFlag", true, "shhh")
@@ -1149,7 +1148,6 @@ func TestHiddenFlagInUsage(t *testing.T) {
 	}
 }
 
-//
 func TestHiddenFlagUsage(t *testing.T) {
 	f := NewFlagSet("bob", ContinueOnError)
 	f.Bool("secretFlag", true, "shhh")
@@ -1238,8 +1236,8 @@ func TestPrintDefaults(t *testing.T) {
 	fs.PrintDefaults()
 	got := buf.String()
 	if got != defaultOutput {
-		fmt.Println("\n" + got)
-		fmt.Println("\n" + defaultOutput)
+		// fmt.Println("\n" + got)
+		// fmt.Println("\n" + defaultOutput)
 		t.Errorf("got %q want %q\n", got, defaultOutput)
 	}
 }
@@ -1247,7 +1245,7 @@ func TestPrintDefaults(t *testing.T) {
 func TestVisitAllFlagOrder(t *testing.T) {
 	fs := NewFlagSet("TestVisitAllFlagOrder", ContinueOnError)
 	fs.SortFlags = false
-	// https://github.com/spf13/pflag/issues/120
+	// https://github.com/nbcx/flag/issues/120
 	fs.SetNormalizeFunc(func(f *FlagSet, name string) NormalizedName {
 		return NormalizedName(name)
 	})

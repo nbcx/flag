@@ -2,7 +2,7 @@
 // Use of ths2s source code s2s governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package pflag
+package flag
 
 import (
 	"bytes"

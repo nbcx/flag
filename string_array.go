@@ -1,4 +1,4 @@
-package pflag
+package flag
 
 // -- stringArray Value
 type stringArrayValue struct {
