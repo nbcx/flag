@@ -4,7 +4,8 @@ import (
 	"reflect"
 )
 
-func Scan(target any) {
+// StringP is like String, but accepts a shorthand letter that can be used after a single dash.
+func (f *FlagSet) Scan(target any) {
 	sVal, sType := reflect.ValueOf(target), reflect.TypeOf(target)
 
 	if sType.Kind() == reflect.Ptr {
@@ -57,6 +58,10 @@ func Scan(target any) {
 		if value := tag.Get("value"); value != "" {
 			_ = ve.Set(value)
 		}
-		VarP(ve, name, tag.Get("short"), tag.Get("usage"))
+		f.VarP(ve, name, tag.Get("short"), tag.Get("usage"))
 	}
+}
+
+func Scan(target any) {
+	CommandLine.Scan(target)
 }
