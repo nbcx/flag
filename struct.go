@@ -15,50 +15,65 @@ func (f *FlagSet) Scan(target any) {
 	}
 	for i := 0; i < sType.NumField(); i++ {
 		field := sType.Field(i)
-
 		tag := field.Tag
+
 		name := tag.Get("name")
-		if name == "" || !sVal.Field(i).CanSet() {
+		short := tag.Get("short")
+		if (short == "" && name == "") || !sVal.Field(i).CanSet() {
 			continue
 		}
 		v := sVal.FieldByName(field.Name).Addr().UnsafePointer()
 		var ve Value
-		switch field.Type.Kind() {
-		case reflect.String:
+
+		kind := tag.Get("type")
+		if kind == "" {
+			kind = field.Type.String()
+		}
+		noOptDefVal := tag.Get("def")
+		switch kind {
+		case "string":
 			ve = newStringValue("", (*string)(v))
-			// todo: 可以解析更多特殊类型
-		case reflect.Int:
+		case "int":
 			ve = newIntValue(0, (*int)(v))
-		case reflect.Int8:
+		case "int8":
 			ve = newInt8Value(0, (*int8)(v))
-		case reflect.Int16:
+		case "int16":
 			ve = newInt16Value(0, (*int16)(v))
-		case reflect.Int32:
+		case "int32":
 			ve = newInt32Value(0, (*int32)(v))
-		case reflect.Int64:
+		case "int64":
 			ve = newInt64Value(0, (*int64)(v))
-		case reflect.Uint:
+		case "uint":
 			ve = newUintValue(0, (*uint)(v))
-		case reflect.Uint8:
+		case "uint8":
 			ve = newUint8Value(0, (*uint8)(v))
-		case reflect.Uint16:
+		case "uint16":
 			ve = newUint16Value(0, (*uint16)(v))
-		case reflect.Uint32:
+		case "uint32":
 			ve = newUint32Value(0, (*uint32)(v))
-		case reflect.Uint64:
+		case "uint64":
 			ve = newUint64Value(0, (*uint64)(v))
-		case reflect.Float32:
+		case "float32":
 			ve = newFloat32Value(0, (*float32)(v))
-		case reflect.Float64:
+		case "float64":
 			ve = newFloat64Value(0, (*float64)(v))
-		case reflect.Array:
+		case "bool":
+			ve = newBoolValue(false, (*bool)(v))
+			if noOptDefVal == "" {
+				noOptDefVal = "true"
+			}
+		case "[]string":
+			ve = newStringArrayValue(nil, (*[]string)(v))
+		case "[]slice":
 			ve = newStringArrayValue(nil, (*[]string)(v))
 		}
-
 		if value := tag.Get("value"); value != "" {
 			_ = ve.Set(value)
 		}
-		f.VarP(ve, name, tag.Get("short"), tag.Get("usage"))
+		pf := f.VarPF(ve, name, short, tag.Get("usage"))
+		if noOptDefVal != "" {
+			pf.NoOptDefVal = noOptDefVal
+		}
 	}
 }
 
