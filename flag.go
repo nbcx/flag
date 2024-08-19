@@ -378,7 +378,7 @@ func (f *FlagSet) ShorthandLookup(name string) *Flag {
 	}
 	if len(name) > 1 {
 		msg := fmt.Sprintf("can not look up shorthand which is more than one ASCII character: %q", name)
-		fmt.Fprintf(f.Output(), msg)
+		fmt.Fprint(f.Output(), msg)
 		panic(msg)
 	}
 	c := name[0]
@@ -880,7 +880,7 @@ func (f *FlagSet) AddFlag(flag *Flag) {
 	}
 	if len(flag.Shorthand) > 1 {
 		msg := fmt.Sprintf("%q shorthand is more than one ASCII character", flag.Shorthand)
-		fmt.Fprintf(f.Output(), msg)
+		fmt.Fprint(f.Output(), msg)
 		panic(msg)
 	}
 	if f.shorthands == nil {
@@ -890,7 +890,7 @@ func (f *FlagSet) AddFlag(flag *Flag) {
 	used, alreadyThere := f.shorthands[c]
 	if alreadyThere {
 		msg := fmt.Sprintf("unable to redefine %q shorthand in %q flagset: it's already used for %q flag", c, f.name, used.Name)
-		fmt.Fprintf(f.Output(), msg)
+		fmt.Fprint(f.Output(), msg)
 		panic(msg)
 	}
 	f.shorthands[c] = flag
@@ -1019,7 +1019,7 @@ func (f *FlagSet) parseLongArg(s string, args []string, fn parseFunc) (a []strin
 
 	err = fn(flag, value)
 	if err != nil {
-		f.failf(err.Error())
+		_ = f.failf(err.Error())
 	}
 	return
 }
@@ -1085,7 +1085,7 @@ func (f *FlagSet) parseSingleShortArg(shorthands string, args []string, fn parse
 
 	err = fn(flag, value)
 	if err != nil {
-		f.failf(err.Error())
+		_ = f.failf(err.Error())
 	}
 	return
 }
@@ -1143,12 +1143,12 @@ func (f *FlagSet) parseArgs(args []string, fn parseFunc) (err error) {
 func (f *FlagSet) Parse(arguments []string) error {
 	if f.addedGoFlagSets != nil {
 		for _, goFlagSet := range f.addedGoFlagSets {
-			goFlagSet.Parse(nil)
+			_ = goFlagSet.Parse(nil)
 		}
 	}
 	f.parsed = true
 
-	if len(arguments) < 0 {
+	if len(arguments) == 0 {
 		return nil
 	}
 
@@ -1207,7 +1207,7 @@ func (f *FlagSet) Parsed() bool {
 // after all flags are defined and before flags are accessed by the program.
 func Parse() {
 	// Ignore errors; CommandLine is set for ExitOnError.
-	CommandLine.Parse(os.Args[1:])
+	_ = CommandLine.Parse(os.Args[1:])
 }
 
 // ParseAll parses the command-line flags from os.Args[1:] and called fn for each.
@@ -1215,7 +1215,7 @@ func Parse() {
 // defined and before flags are accessed by the program.
 func ParseAll(fn func(flag *Flag, value string) error) {
 	// Ignore errors; CommandLine is set for ExitOnError.
-	CommandLine.ParseAll(os.Args[1:], fn)
+	_ = CommandLine.ParseAll(os.Args[1:], fn)
 }
 
 // SetInterspersed sets whether to support interspersed option/non-option arguments.
