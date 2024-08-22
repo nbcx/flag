@@ -19,15 +19,15 @@ import (
 )
 
 var (
-	testBool                     = Bool("test_bool", false, "bool value")
-	testInt                      = Int("test_int", 0, "int value")
-	testInt64                    = Int64("test_int64", 0, "int64 value")
-	testUint                     = Uint("test_uint", 0, "uint value")
-	testUint64                   = Uint64("test_uint64", 0, "uint64 value")
-	testString                   = String("test_string", "0", "string value")
-	testFloat                    = Float64("test_float64", 0, "float64 value")
-	testDuration                 = Duration("test_duration", 0, "time.Duration value")
-	testOptionalInt              = Int("test_optional_int", 0, "optional int value")
+	// testBool                     = Bool("test_bool", false, "bool value")
+	// testInt                      = Int("test_int", 0, "int value")
+	// testInt64                    = Int64("test_int64", 0, "int64 value")
+	// testUint                     = Uint("test_uint", 0, "uint value")
+	// testUint64                   = Uint64("test_uint64", 0, "uint64 value")
+	// testString                   = String("test_string", "0", "string value")
+	// testFloat                    = Float64("test_float64", 0, "float64 value")
+	// testDuration                 = Duration("test_duration", 0, "time.Duration value")
+	// testOptionalInt              = Int("test_optional_int", 0, "optional int value")
 	normalizeFlagNameInvocations = 0
 )
 
