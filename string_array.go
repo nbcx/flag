@@ -1,4 +1,4 @@
-package pflag
+package flag
 
 // -- stringArray Value
 type stringArrayValue struct {
@@ -30,18 +30,20 @@ func (s *stringArrayValue) Append(val string) error {
 
 func (s *stringArrayValue) Replace(val []string) error {
 	out := make([]string, len(val))
-	for i, d := range val {
-		out[i] = d
-	}
+	// for i, d := range val {
+	// 	out[i] = d
+	// }
+	copy(out, val)
 	*s.value = out
 	return nil
 }
 
 func (s *stringArrayValue) GetSlice() []string {
 	out := make([]string, len(*s.value))
-	for i, d := range *s.value {
-		out[i] = d
-	}
+	// for i, d := range *s.value {
+	// 	out[i] = d
+	// }
+	copy(out, *s.value)
 	return out
 }
 
@@ -54,13 +56,13 @@ func (s *stringArrayValue) String() string {
 	return "[" + str + "]"
 }
 
-func stringArrayConv(sval string) (interface{}, error) {
-	sval = sval[1 : len(sval)-1]
+func stringArrayConv(sVal string) (interface{}, error) {
+	sVal = sVal[1 : len(sVal)-1]
 	// An empty string would cause a array with one (empty) string
-	if len(sval) == 0 {
+	if len(sVal) == 0 {
 		return []string{}, nil
 	}
-	return readAsCSV(sval)
+	return readAsCSV(sVal)
 }
 
 // GetStringArray return the []string value of a flag with the given name
