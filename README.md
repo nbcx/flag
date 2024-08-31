@@ -1,13 +1,28 @@
-[![Build Status](https://travis-ci.org/spf13/pflag.svg?branch=master)](https://travis-ci.org/spf13/pflag)
-[![Go Report Card](https://goreportcard.com/badge/github.com/nbcx/flag)](https://goreportcard.com/report/github.com/nbcx/flag)
-[![GoDoc](https://godoc.org/github.com/nbcx/flag?status.svg)](https://godoc.org/github.com/nbcx/flag)
+## Note
+
+This project is a clone of `pflag`, with added tag definition feature.
+
+```go
+type Target struct {
+	Name  string   `name:"name"`
+	Yes   bool     `name:"yes" short:"y"`
+}
+
+Scan(target)
+
+Parse([]string{"--name=hello", "--y"})
+
+fmt.Println(target.Name, target.Yes)
+
+// input: hello true
+```
 
 ## Description
 
-pflag is a drop-in replacement for Go's flag package, implementing
+flag is a drop-in replacement for Go's flag package, implementing
 POSIX/GNU-style --flags.
 
-pflag is compatible with the [GNU extensions to the POSIX recommendations
+flag is compatible with the [GNU extensions to the POSIX recommendations
 for command-line options][1]. For a more precise description, see the
 "Command-line flag syntax" section below.
 
@@ -18,7 +33,7 @@ which can be found in the LICENSE file.
 
 ## Installation
 
-pflag is available using the standard `go get` command.
+flag is available using the standard `go get` command.
 
 Install by running:
 
